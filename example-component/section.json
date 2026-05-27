@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_blocks_sections",
+  "info": {
+    "displayName": "Section",
+    "description": "A page section that can contain a nested dynamic zone of blocks."
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "blocks": {
+      "type": "customField",
+      "customField": "plugin::nested-dynamic-zone.nested-dynamic-zone",
+      "options": {
+        "allowedComponents": ["blocks.text", "blocks.image", "blocks.cta"],
+        "min": 0,
+        "max": 50
+      }
+    }
+  }
+}

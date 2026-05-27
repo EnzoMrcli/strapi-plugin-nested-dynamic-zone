@@ -1,0 +1,19 @@
+{
+  "label": "Dynamic Zone imbriquée",
+  "description": "Une dynamic zone utilisable à l'intérieur d'un component.",
+  "section.base": "Composants",
+  "option.allowedComponents": "Composants autorisés",
+  "option.allowedComponents.desc": "Tableau JSON d'UID de composants, ex. [\"blocks.text\", \"blocks.image\"]",
+  "option.min": "Minimum d'éléments",
+  "option.max": "Maximum d'éléments",
+  "editor.empty": "Aucun composant pour le moment.",
+  "editor.add": "Ajouter un composant",
+  "editor.remove": "Supprimer",
+  "editor.moveUp": "Monter",
+  "editor.moveDown": "Descendre",
+  "editor.atMax": "Nombre maximal d'éléments atteint",
+  "picker.title": "Choisir un composant",
+  "picker.empty": "Aucun composant autorisé ici. Configurez l'option allowedComponents du champ.",
+  "picker.cancel": "Annuler",
+  "error.invalidValue": "Valeur invalide pour une nested-dynamic-zone"
+}

@@ -1,0 +1,19 @@
+{
+  "label": "Nested Dynamic Zone",
+  "description": "A dynamic zone you can use inside a component.",
+  "section.base": "Components",
+  "option.allowedComponents": "Allowed components",
+  "option.allowedComponents.desc": "JSON array of component UIDs, e.g. [\"blocks.text\", \"blocks.image\"]",
+  "option.min": "Min items",
+  "option.max": "Max items",
+  "editor.empty": "No components yet.",
+  "editor.add": "Add a component",
+  "editor.remove": "Remove",
+  "editor.moveUp": "Move up",
+  "editor.moveDown": "Move down",
+  "editor.atMax": "Maximum number of items reached",
+  "picker.title": "Pick a component",
+  "picker.empty": "No components are allowed here. Configure the field's allowedComponents option.",
+  "picker.cancel": "Cancel",
+  "error.invalidValue": "Value is not a valid nested-dynamic-zone array"
+}

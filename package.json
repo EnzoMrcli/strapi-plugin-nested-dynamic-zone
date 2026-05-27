@@ -1,0 +1,48 @@
+{
+  "name": "strapi-plugin-nested-dynamic-zone",
+  "version": "1.0.0",
+  "description": "Allow Dynamic Zones inside Components. Strapi v5 plugin (custom field + JSON storage + GraphQL union + Document Service middleware).",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "./strapi-server.js",
+  "files": [
+    "admin",
+    "server",
+    "strapi-server.js",
+    "strapi-server.ts",
+    "strapi-admin.js",
+    "strapi-admin.ts",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p admin/tsconfig.json",
+    "verify": "tsc -p tsconfig.json --noEmit && tsc -p admin/tsconfig.json --noEmit"
+  },
+  "strapi": {
+    "name": "nested-dynamic-zone",
+    "displayName": "Nested Dynamic Zone",
+    "description": "Use a Dynamic Zone inside a Component.",
+    "kind": "plugin"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5.0.0",
+    "@strapi/design-system": "^2.0.0",
+    "@strapi/icons": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-intl": "^6.0.0",
+    "styled-components": "^6.0.0"
+  },
+  "devDependencies": {
+    "@strapi/strapi": "^5.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0 <=22.x.x",
+    "npm": ">=6.0.0"
+  }
+}
