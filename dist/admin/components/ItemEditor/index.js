@@ -35,6 +35,13 @@ const ItemEditor = ({ uid, value, onChange, disabled }) => {
     if (!schema) {
         return (_jsx(Flex, { justifyContent: "center", padding: 3, children: _jsx(Loader, { small: true, children: "Loading\u2026" }) }));
     }
+    // Defensive — if the server returned a schema-shaped object without
+    // attributes (shouldn't happen since v1.0.4's stricter unwrap, but
+    // belt-and-suspenders) we render an explicit warning rather than
+    // crash on `Object.entries(undefined)`.
+    if (!schema.attributes || typeof schema.attributes !== 'object') {
+        return (_jsx(Box, { padding: 2, background: "warning100", hasRadius: true, children: _jsxs(Typography, { variant: "pi", textColor: "warning700", children: ["Schema for ", uid, " loaded without an `attributes` field. Check that the admin user has access to /content-type-builder/components/* and that the component still exists in src/components/."] }) }));
+    }
     const set = (key) => (next) => onChange({ [key]: next });
     return (_jsx(Flex, { direction: "column", gap: 3, alignItems: "stretch", children: Object.entries(schema.attributes).map(([key, attr]) => renderAttr(key, attr, value[key], set(key), Boolean(disabled))) }));
 };

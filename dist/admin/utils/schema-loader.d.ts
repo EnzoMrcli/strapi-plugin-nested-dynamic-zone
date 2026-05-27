@@ -1,6 +1,22 @@
 /**
  * Component-schema loader for the admin UI.
- * Caches promises so concurrent calls for the same UID coalesce.
+ *
+ * Endpoint priority:
+ *   1. `GET /content-type-builder/components/:uid`
+ *        Returns the full schema with `attributes`. This is what we
+ *        actually need to render a sub-form. Shape:
+ *          { data: { uid, category, apiId, schema: {
+ *              displayName, attributes: { fieldName: { type, ... } }, ...
+ *          } } }
+ *
+ *   2. `GET /content-manager/components/:uid/configuration` (fallback)
+ *        Returns the Content Manager UI layout — `metadatas`, `layouts`,
+ *        `settings`. Does NOT contain attribute types, so it's only
+ *        useful as a fallback to extract display info; if we ever land
+ *        here we have no choice but to fail loudly because attributes
+ *        are missing.
+ *
+ * Promises are cached per-uid so concurrent calls coalesce.
  */
 export interface ComponentSchema {
     uid: string;
@@ -33,6 +49,7 @@ type FetchClient = {
     }>;
 };
 export declare function loadComponentSchema(uid: string, client: FetchClient): Promise<ComponentSchema>;
+/** Test hook — clears the cache between renders / unit tests. */
 export declare function _resetSchemaCache(): void;
 export {};
 //# sourceMappingURL=schema-loader.d.ts.map

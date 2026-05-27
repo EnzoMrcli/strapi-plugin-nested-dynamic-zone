@@ -68,6 +68,22 @@ const ItemEditor: React.FC<ItemEditorProps> = ({ uid, value, onChange, disabled 
     );
   }
 
+  // Defensive — if the server returned a schema-shaped object without
+  // attributes (shouldn't happen since v1.0.4's stricter unwrap, but
+  // belt-and-suspenders) we render an explicit warning rather than
+  // crash on `Object.entries(undefined)`.
+  if (!schema.attributes || typeof schema.attributes !== 'object') {
+    return (
+      <Box padding={2} background="warning100" hasRadius>
+        <Typography variant="pi" textColor="warning700">
+          Schema for {uid} loaded without an `attributes` field. Check that the
+          admin user has access to /content-type-builder/components/* and that
+          the component still exists in src/components/.
+        </Typography>
+      </Box>
+    );
+  }
+
   const set = (key: string) => (next: unknown): void => onChange({ [key]: next });
 
   return (
