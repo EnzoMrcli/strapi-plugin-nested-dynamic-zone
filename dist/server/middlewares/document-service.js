@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const types_1 = require("../types");
-exports.default = ({ strapi }) => {
+exports.default = ({ strapi, validator, serializer }) => {
     const components = strapi.components;
     const contentTypes = strapi.contentTypes;
     const lookupSchema = (uid) => contentTypes?.[uid] ?? components?.[uid];
@@ -40,8 +40,6 @@ exports.default = ({ strapi }) => {
             }
         }
     }
-    const validator = strapi.plugin('nested-dynamic-zone').service('validator');
-    const serializer = strapi.plugin('nested-dynamic-zone').service('serializer');
     const WRITE_ACTIONS = new Set([
         'create',
         'update',

@@ -12,9 +12,7 @@ declare const _default: {
         sanitizer: ({ strapi }: {
             strapi: import("@strapi/types/dist/core").Strapi;
         }) => import("./services/sanitizer").SanitizerService;
-        serializer: ({ strapi }: {
-            strapi: import("@strapi/types/dist/core").Strapi;
-        }) => import("./services/serializer").SerializerService;
+        serializer: ({ strapi, sanitizer }: import("./services/serializer").SerializerArgs) => import("./services/serializer").SerializerService;
         graphql: ({ strapi }: {
             strapi: import("@strapi/types/dist/core").Strapi;
         }) => {

@@ -5,19 +5,24 @@
  * payloads on write; normalizes shape on read. Also walks nested component
  * instances inside the data tree so an NDZ inside a component inside a
  * content type works end-to-end.
+ *
+ * Dependencies (validator, serializer) are injected by bootstrap.ts as
+ * explicit args — we deliberately do NOT look them up via
+ * `strapi.plugin('nested-dynamic-zone').service(...)`, see bootstrap.ts
+ * for the rationale.
  */
 import type { Core } from '@strapi/strapi';
 import { AttributeLike, FIELD_ID, NdzAttribute, SchemaLike } from '../types';
+import type { ValidatorService } from '../services/validator';
+import type { SerializerService } from '../services/serializer';
 
-interface ValidatorService {
-  validate(value: unknown, attr: NdzAttribute): Promise<unknown[]>;
+interface DocumentServiceMiddlewareArgs {
+  strapi: Core.Strapi;
+  validator: ValidatorService;
+  serializer: SerializerService;
 }
 
-interface SerializerService {
-  normalize(record: unknown, schema: SchemaLike): void;
-}
-
-export default ({ strapi }: { strapi: Core.Strapi }) => {
+export default ({ strapi, validator, serializer }: DocumentServiceMiddlewareArgs) => {
   const components = (strapi as unknown as {
     components: Record<string, SchemaLike>;
   }).components;
@@ -67,9 +72,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => {
       }
     }
   }
-
-  const validator = strapi.plugin('nested-dynamic-zone').service('validator') as ValidatorService;
-  const serializer = strapi.plugin('nested-dynamic-zone').service('serializer') as SerializerService;
 
   const WRITE_ACTIONS = new Set([
     'create',

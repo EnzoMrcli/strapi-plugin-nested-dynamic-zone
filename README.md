@@ -242,15 +242,43 @@ You can also configure this through the Content-Type Builder UI (it writes the s
 
 ## Troubleshooting
 
+### "I downloaded the GitHub ZIP and my folder is `strapi-plugin-nested-dynamic-zone-main`"
+
+GitHub adds the `-main` suffix to ZIP-downloaded folders. **Rename the
+folder to `nested-dynamic-zone`** before placing it in `src/plugins/`:
+
+```pwsh
+Rename-Item .\src\plugins\strapi-plugin-nested-dynamic-zone-main `
+            nested-dynamic-zone
+```
+
+Or, prefer `git clone` which uses the repo name verbatim:
+
+```pwsh
+git clone https://github.com/EnzoMrcli/strapi-plugin-nested-dynamic-zone.git `
+          src\plugins\nested-dynamic-zone
+```
+
+The plugin no longer hard-depends on the config key matching internal
+names (since v1.0.1), so a mismatched folder name doesn't crash anymore.
+But aligning everything makes logs and stack traces readable.
+
 ### "I see nothing in the admin UI"
 
 1. **Check the server logs.** At startup you should see
    `[nested-dynamic-zone] document-service middleware installed`.
    If it's missing, the plugin server module didn't load.
 
-2. **Check `config/plugins.ts`.** The key must be exactly
-   `'nested-dynamic-zone'`, and `enabled: true`. For drop-in, also include
-   `resolve: './src/plugins/nested-dynamic-zone'`.
+2. **Check `config/plugins.ts`.** Recommended config:
+   ```ts
+   'nested-dynamic-zone': {
+     enabled: true,
+     resolve: './src/plugins/nested-dynamic-zone',
+   }
+   ```
+   The key can technically be anything (the plugin no longer depends on
+   it matching), but using `nested-dynamic-zone` keeps things consistent
+   with the docs.
 
 3. **Rebuild the admin.** Custom field registration runs at admin bundle
    time. After installing/changing the plugin you MUST run:
