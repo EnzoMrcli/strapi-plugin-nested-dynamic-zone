@@ -31,7 +31,7 @@ exports.default = ({ strapi, sanitizer }) => {
                 }
                 if (value == null)
                     value = [];
-                const allowed = new Set((a.options?.allowedComponents ?? []));
+                const allowed = new Set((0, types_1.parseAllowedComponents)(a.options?.allowedComponents));
                 obj[key] = resolvedSanitizer.sanitizeNdzArray(value, allowed);
             }
         },

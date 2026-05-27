@@ -6,7 +6,7 @@ export interface NdzAttribute {
     type: 'customField';
     customField: string;
     options?: {
-        allowedComponents?: string[];
+        allowedComponents?: string[] | string;
         min?: number;
         max?: number;
     };

@@ -14,6 +14,7 @@ import {
   NdzAttribute,
   NdzItem,
   SchemaLike,
+  parseAllowedComponents,
 } from '../types';
 
 const DEFAULT_MAX_DEPTH = 32;
@@ -67,7 +68,7 @@ export default ({ strapi }: { strapi: Core.Strapi }): ValidatorService => {
         throw new errors.ValidationError(`NDZ allows at most ${max} item(s)`);
       }
 
-      const allowed = new Set<string>(attr.options?.allowedComponents ?? []);
+      const allowed = new Set<string>(parseAllowedComponents(attr.options?.allowedComponents));
       const out: NdzItem[] = [];
 
       for (let i = 0; i < value.length; i++) {

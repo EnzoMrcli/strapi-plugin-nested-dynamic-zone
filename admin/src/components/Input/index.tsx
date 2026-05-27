@@ -14,12 +14,15 @@ import { Plus, Trash, ArrowUp, ArrowDown } from '@strapi/icons';
 import ComponentPicker from '../ComponentPicker';
 import ItemEditor from '../ItemEditor';
 import pluginId from '../../pluginId';
+import { parseAllowedComponents } from '../../utils/parse-allowed-components';
 
 export interface NdzAttribute {
   type: 'customField';
   customField: string;
   options?: {
-    allowedComponents?: string[];
+    // Accepts either a real array or a CSV/JSON string — see
+    // utils/parse-allowed-components.ts for the parsing rules.
+    allowedComponents?: string[] | string;
     min?: number;
     max?: number;
   };
@@ -74,7 +77,7 @@ const Input: React.FC<InputProps> = ({
   error,
 }) => {
   const { formatMessage } = useIntl();
-  const allowed = attribute.options?.allowedComponents ?? [];
+  const allowed = parseAllowedComponents(attribute.options?.allowedComponents);
   const max = attribute.options?.max ?? Infinity;
   const min = attribute.options?.min ?? 0;
 

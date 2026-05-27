@@ -35,7 +35,7 @@ function collectNdzFields(strapi) {
                 parentUid,
                 parentGqlType,
                 attrKey,
-                allowedComponents: a.options?.allowedComponents ?? [],
+                allowedComponents: (0, types_1.parseAllowedComponents)(a.options?.allowedComponents),
                 unionName: `${parentGqlType}_${attrKey}_NDZ`,
             });
         }

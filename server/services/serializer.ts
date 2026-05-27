@@ -8,7 +8,7 @@
  * name. See server/bootstrap.ts for the longer rationale.
  */
 import type { Core } from '@strapi/strapi';
-import { AttributeLike, FIELD_ID, SchemaLike } from '../types';
+import { AttributeLike, FIELD_ID, SchemaLike, parseAllowedComponents } from '../types';
 import type { SanitizerService } from './sanitizer';
 import sanitizerFactory from './sanitizer';
 
@@ -47,7 +47,7 @@ export default ({ strapi, sanitizer }: SerializerArgs): SerializerService => {
         if (value == null) value = [];
 
         const allowed = new Set<string>(
-          ((a.options?.allowedComponents as string[] | undefined) ?? []),
+          parseAllowedComponents(a.options?.allowedComponents),
         );
         obj[key] = resolvedSanitizer.sanitizeNdzArray(value, allowed);
       }

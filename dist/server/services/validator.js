@@ -29,7 +29,7 @@ exports.default = ({ strapi }) => {
             if (value.length > max) {
                 throw new utils_1.errors.ValidationError(`NDZ allows at most ${max} item(s)`);
             }
-            const allowed = new Set(attr.options?.allowedComponents ?? []);
+            const allowed = new Set((0, types_1.parseAllowedComponents)(attr.options?.allowedComponents));
             const out = [];
             for (let i = 0; i < value.length; i++) {
                 const raw = value[i];

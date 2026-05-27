@@ -3,7 +3,7 @@
   "description": "Une dynamic zone utilisable à l'intérieur d'un component.",
   "section.base": "Composants",
   "option.allowedComponents": "Composants autorisés",
-  "option.allowedComponents.desc": "Tableau JSON d'UID de composants, ex. [\"blocks.text\", \"blocks.image\"]",
+  "option.allowedComponents.desc": "Liste d'UID de composants séparés par des virgules, ex. blocks.text,blocks.image",
   "option.min": "Minimum d'éléments",
   "option.max": "Maximum d'éléments",
   "editor.empty": "Aucun composant pour le moment.",

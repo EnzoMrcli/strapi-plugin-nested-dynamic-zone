@@ -22,6 +22,17 @@ const admin = {
                 Input: async () => import('./components/Input'),
             },
             options: {
+                // Strapi v5's Content-Type Builder only reliably supports a small
+                // set of option input types: string, number, boolean, select,
+                // checkbox, select-default-boolean. Using `type: 'json'` for the
+                // `allowedComponents` option caused the server-side schema
+                // validator to reject the save with a 400 in some Strapi 5.x
+                // patch releases (see github issue trail in the README).
+                //
+                // So we use `type: 'string'` and accept comma-separated UIDs in
+                // the form. `parseAllowedComponents` (in both server and admin)
+                // tolerates both the CSV form AND a JSON array string AND a real
+                // array, so schemas hand-edited as JSON keep working.
                 base: [
                     {
                         sectionTitle: {
@@ -31,14 +42,14 @@ const admin = {
                         items: [
                             {
                                 name: 'options.allowedComponents',
-                                type: 'json',
+                                type: 'string',
                                 intlLabel: {
                                     id: `${pluginId}.option.allowedComponents`,
                                     defaultMessage: 'Allowed components',
                                 },
                                 description: {
                                     id: `${pluginId}.option.allowedComponents.desc`,
-                                    defaultMessage: 'JSON array of component UIDs, e.g. ["blocks.text", "blocks.image"]',
+                                    defaultMessage: 'Comma-separated list of component UIDs, e.g. blocks.text,blocks.image',
                                 },
                             },
                             {
@@ -61,7 +72,12 @@ const admin = {
                     },
                 ],
                 advanced: [],
-                validator: () => ({}),
+                // NOTE: we deliberately do NOT pass a `validator: () => ({})`
+                // function here. Strapi 5's admin dispatches this options object
+                // through Redux; a function value triggers the
+                //   "non-serializable value was detected in an action" warning
+                // (see https://redux.js.org/faq/actions). The `validator` field
+                // is optional per the Strapi docs.
             },
         });
     },

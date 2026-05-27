@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-nested-dynamic-zone",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Allow Dynamic Zones inside Components. Strapi v5 plugin (custom field + JSON storage + GraphQL union + Document Service middleware).",
   "license": "MIT",
   "type": "commonjs",

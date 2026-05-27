@@ -38,4 +38,18 @@ export interface AttributeLike {
     options?: Record<string, unknown>;
     [key: string]: unknown;
 }
+/**
+ * Parse the `options.allowedComponents` value into a string array.
+ *
+ * Two storage forms are accepted, in this order:
+ *   1. A real array — what we wrote originally and what hand-edited
+ *      schema JSON files typically contain.
+ *   2. A string, either:
+ *      - a JSON-encoded array `["a","b"]` (legacy compatibility), OR
+ *      - a comma-separated list `"a, b"` (what the Content-Type Builder
+ *        form produces since v1.0.2 — Strapi's CTB doesn't accept
+ *        `type: 'json'` option inputs cleanly, so we use a plain string
+ *        input and parse here).
+ */
+export declare function parseAllowedComponents(value: unknown): string[];
 //# sourceMappingURL=types.d.ts.map

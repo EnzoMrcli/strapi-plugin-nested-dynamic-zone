@@ -3,7 +3,7 @@
  * NDZ items before they leave the API.
  */
 import type { Core } from '@strapi/strapi';
-import { AttributeLike, FIELD_ID, NdzItem, SchemaLike } from '../types';
+import { AttributeLike, FIELD_ID, NdzItem, SchemaLike, parseAllowedComponents } from '../types';
 
 const INTERNAL_KEYS = new Set(['__tempId']);
 
@@ -44,7 +44,7 @@ export default ({ strapi }: { strapi: Core.Strapi }): SanitizerService => {
         const a = attr as AttributeLike;
         if (a.customField === FIELD_ID) {
           const allowed = new Set<string>(
-            ((a.options?.allowedComponents as string[] | undefined) ?? []),
+            parseAllowedComponents(a.options?.allowedComponents),
           );
           obj[key] = self.sanitizeNdzArray(obj[key], allowed);
         }

@@ -38,7 +38,7 @@ exports.default = ({ strapi }) => {
             for (const [key, attr] of Object.entries(schema.attributes ?? {})) {
                 const a = attr;
                 if (a.customField === types_1.FIELD_ID) {
-                    const allowed = new Set((a.options?.allowedComponents ?? []));
+                    const allowed = new Set((0, types_1.parseAllowedComponents)(a.options?.allowedComponents));
                     obj[key] = self.sanitizeNdzArray(obj[key], allowed);
                 }
             }

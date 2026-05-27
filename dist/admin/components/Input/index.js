@@ -9,6 +9,7 @@ import { Plus, Trash, ArrowUp, ArrowDown } from '@strapi/icons';
 import ComponentPicker from '../ComponentPicker';
 import ItemEditor from '../ItemEditor';
 import pluginId from '../../pluginId';
+import { parseAllowedComponents } from '../../utils/parse-allowed-components';
 const newTempId = () => `tmp-${Math.random().toString(36).slice(2, 10)}`;
 function parseValue(raw) {
     if (Array.isArray(raw))
@@ -26,7 +27,7 @@ function parseValue(raw) {
 }
 const Input = ({ name, attribute, value, onChange, intlLabel, disabled, error, }) => {
     const { formatMessage } = useIntl();
-    const allowed = attribute.options?.allowedComponents ?? [];
+    const allowed = parseAllowedComponents(attribute.options?.allowedComponents);
     const max = attribute.options?.max ?? Infinity;
     const min = attribute.options?.min ?? 0;
     const items = React.useMemo(() => parseValue(value), [value]);

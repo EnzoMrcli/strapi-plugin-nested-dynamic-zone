@@ -21,7 +21,7 @@ function detectCycle(strapi) {
             for (const attr of Object.values(schema.attributes ?? {})) {
                 const targets = [];
                 if (isNdz(attr))
-                    targets.push(...(attr.options?.allowedComponents ?? []));
+                    targets.push(...(0, types_1.parseAllowedComponents)(attr.options?.allowedComponents));
                 if (attr.type === 'component' && typeof attr.component === 'string')
                     targets.push(attr.component);
                 for (const next of targets) {

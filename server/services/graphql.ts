@@ -6,7 +6,7 @@
  * type to expose `[Union!]` for that attribute.
  */
 import type { Core } from '@strapi/strapi';
-import { AttributeLike, FIELD_ID, NdzItem, SchemaLike } from '../types';
+import { AttributeLike, FIELD_ID, NdzItem, SchemaLike, parseAllowedComponents } from '../types';
 
 /** Convert "blocks.text" → "ComponentBlocksText" (Strapi's GraphQL convention). */
 export const toGqlTypeName = (uid: string): string =>
@@ -48,7 +48,7 @@ export function collectNdzFields(strapi: Core.Strapi): NdzFieldRef[] {
         parentUid,
         parentGqlType,
         attrKey,
-        allowedComponents: (a.options?.allowedComponents as string[] | undefined) ?? [],
+        allowedComponents: parseAllowedComponents(a.options?.allowedComponents),
         unionName: `${parentGqlType}_${attrKey}_NDZ`,
       });
     }

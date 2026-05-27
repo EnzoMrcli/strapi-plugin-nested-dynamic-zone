@@ -8,7 +8,14 @@
  *   2. We detect direct schema-level cycles at boot.
  */
 import type { Core } from '@strapi/strapi';
-import { FIELD_NAME, FIELD_ID, PLUGIN_NAME, AttributeLike, NdzAttribute } from './types';
+import {
+  FIELD_NAME,
+  FIELD_ID,
+  PLUGIN_NAME,
+  AttributeLike,
+  NdzAttribute,
+  parseAllowedComponents,
+} from './types';
 
 const isNdz = (attr: AttributeLike): attr is NdzAttribute =>
   attr?.type === 'customField' && attr?.customField === FIELD_ID;
@@ -30,7 +37,7 @@ function detectCycle(strapi: Core.Strapi): string[] | null {
     if (schema) {
       for (const attr of Object.values(schema.attributes ?? {})) {
         const targets: string[] = [];
-        if (isNdz(attr)) targets.push(...(attr.options?.allowedComponents ?? []));
+        if (isNdz(attr)) targets.push(...parseAllowedComponents(attr.options?.allowedComponents));
         if (attr.type === 'component' && typeof attr.component === 'string') targets.push(attr.component);
         for (const next of targets) {
           const cycle = visit(next, [...stack, uid]);
