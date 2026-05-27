@@ -181,34 +181,54 @@ If you absolutely need first-class component rows under nesting, you'd need a di
 
 ### GraphQL output
 
-The plugin auto-generates one union type per (parent, attribute) pair when it boots. For the example above:
-
-```graphql
-union ComponentBlocksSection_blocks_NDZ =
-    ComponentBlocksText
-  | ComponentBlocksImage
-
-extend type ComponentBlocksSection {
-  blocks: [ComponentBlocksSection_blocks_NDZ!]
-}
-```
-
-Query it like any other union:
+NDZ fields are exposed as the `JSON` scalar in GraphQL — the data still
+passes (clients can read/write the full array), just without union
+typing.
 
 ```graphql
 query {
   page(documentId: "abc...") {
     section {
       title
-      blocks {
-        __typename
-        ... on ComponentBlocksText { body }
-        ... on ComponentBlocksImage { url alt }
-      }
+      blocks   # JSON scalar — array of { __component, ...attrs }
     }
   }
 }
 ```
+
+Returns:
+
+```json
+{ "blocks": [{ "__component": "blocks.text", "body": "Hello" }, ...] }
+```
+
+#### Why not a typed union?
+
+Strapi's `@strapi/plugin-graphql` auto-generates a `JSON`-typed field
+for every custom-field attribute whose base type is `json`. If the
+plugin tries to override that with a typed union (which would let you
+write `... on ComponentBlocksText { body }`), `@graphql-tools/merge`
+refuses to merge the two conflicting declarations and Strapi crashes
+at boot:
+
+```
+Error: Unable to merge GraphQL type "ComponentX": Field "y" already
+defined with a different type. Declared as "JSON", but you tried to
+override with "ComponentX_y_NDZ"
+```
+
+The `shadowCRUD().field().disable()` API that would let us suppress
+Strapi's auto-generated declaration only works for content types in
+Strapi 5.x — not for component types. Until a public component-level
+disable API exists, the typed-union extension is opt-in via env var
+and **expected to crash** for most setups:
+
+```pwsh
+$env:NDZ_ENABLE_GRAPHQL_UNIONS = 'true'   # at your own risk
+npm run develop
+```
+
+If you opt in and it crashes, set the var back to `false`.
 
 ---
 

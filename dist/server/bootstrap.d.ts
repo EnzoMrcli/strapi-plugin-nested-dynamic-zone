@@ -2,9 +2,8 @@
  * Bootstrap phase — runs once all plugins have registered.
  *
  * We instantiate the plugin's services directly from their factories and
- * pass them as explicit dependencies to the middleware + GraphQL
- * extension. We deliberately do NOT go through
- *     strapi.plugin('nested-dynamic-zone').service(...)
+ * pass them as explicit dependencies to the middleware. We deliberately
+ * do NOT go through `strapi.plugin('nested-dynamic-zone').service(...)`
  * because that lookup depends on the user's `config/plugins.ts` key
  * matching the literal string `'nested-dynamic-zone'`. People who unpack
  * GitHub zips end up with folders like
